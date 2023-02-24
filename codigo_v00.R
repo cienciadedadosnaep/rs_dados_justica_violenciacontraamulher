@@ -47,6 +47,7 @@ library(readr)
 dados_viol_sex_bahia_raca_cor <- read_csv("data/dados_viol_sex_bahia_raca_cor.csv")
 dd <- dados_viol_sex_bahia_raca_cor %>% select(ano,total)
 nomes <- names(dd)
+dd %<>% mutate(total = round(total/1000,2))
 nomes[2] = 'Total'
 ##  Perguntas e titulos 
 T_ST_P_No_Justica <- read_csv("data/TEMA_SUBTEMA_P_No - JUSTICA.csv")
@@ -109,13 +110,14 @@ data_serie <- paste('[',gsub(' ',',',
 texto<-paste('{"title":{"text":"',titulo,
              '","subtext":"',subtexto,
              '","sublink":"',link,'"},',
-             '"tooltip":{"trigger":"axis"},',
+             '"tooltip":{"trigger":"item","responsive":true,"position":"top","formatter":"{b}: {c} mil"},',
              '"toolbox":{"left":"center","orient":"horizontal","itemSize":20,"top":20,"show":true,',
              '"feature":{"dataZoom":{"yAxisIndex":"none"},',
              '"dataView":{"readOnly":false},',
-             '"restore":{},"saveAsImage":{}}},"legend":{"show":true,"top":"bottom"},"xAxis":{"type":"category",',
+             '"restore":{},"saveAsImage":{}}},"legend":{"show":false,"top":"bottom"},"xAxis":{"type":"category",',
              '"data":',data_axis,'},',
-             '"yAxis":{"type":"value","axisLabel":{"formatter":"{value}"}},',
+             '"yAxis":{"type":"value","axisLabel":{"formatter":"{value}mil"}},',
+             '"graphic":[{"type":"text","left":"center","top":"bottom","z":100, "style":{"fill":"gray","text":"Obs: Ponto é separador decimal", "font":"8px sans-srif","fontSize":12}}],',
              '"series":[{"name":"',nomes[2],'","data":',data_serie,',',
              '"type":"bar","color":"',corsec_recossa_azul[1],'","showBackground":true,',
              '"backgroundStyle":{"color":"rgba(180, 180, 180, 0.2)"},"symbol":"',simbolo_linhas[1],
